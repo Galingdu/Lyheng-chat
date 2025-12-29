@@ -7,6 +7,6 @@ const router = express.Router();
 const protect = authenticate;
 
 router.get('/me', protect, getMe);
-router.get('/count',getUserCount )
+router.get('/count',protect,getUserCount )
 
 export default router;
