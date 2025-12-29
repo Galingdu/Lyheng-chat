@@ -21,7 +21,12 @@ const userSchema = new mongoose.Schema(
     avatar: {
       type: String, // store file path or filename
       required: true
-    }
+    },
+    role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user" // 👈 everyone is user by default
+  }
   },
   { timestamps: true }
 );

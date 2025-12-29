@@ -29,7 +29,7 @@ export const uploadChatImage = (req, res) => {
 export const getMessages = async (req, res) => {
   try {
     const messages = await Message.find()
-      .populate('sender', 'username avatar')
+      .populate('sender', 'username avatar role')
       .sort({ createdAt: -1 })
       .limit(100);
 

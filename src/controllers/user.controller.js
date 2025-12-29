@@ -15,3 +15,14 @@ export const getMe = async (req,res) =>{
 
     }
 }
+
+export const getUserCount  = async (req,res)=>{
+    try{
+       const count = await User.countDocuments();
+        res.json({ totalUsers: count });
+
+    }catch(err){
+        res.status(500).json({ message: err.message });
+
+    }
+}
