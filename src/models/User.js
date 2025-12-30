@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema(
     },
     avatar: {
       type: String, // store file path or filename
-      required: true
+      default:"",
     },
     role: {
     type: String,

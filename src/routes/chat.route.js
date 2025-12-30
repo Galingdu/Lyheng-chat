@@ -1,17 +1,27 @@
-import express from 'express';
-import { getMessages,uploadChatImage } from '../controllers/chat.controller.js';
-import chatUpload from '../utils/chatUpload.js';
-import authMiddleware from '../middleware/auth.middleware.js';
+import express from "express";
+import multer from "multer";
+import authMiddleware from "../middleware/auth.middleware.js";
+import {
+  getMessages,
+  uploadChatImage,
+} from "../controllers/chat.controller.js";
 
 const router = express.Router();
 
-router.get('/', getMessages);
+/* ================= MULTER MEMORY STORAGE ================= */
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+});
+
+/* ================= ROUTES ================= */
+router.get("/", authMiddleware, getMessages);
+
 router.post(
-  '/image',
+  "/image",
   authMiddleware,
-  chatUpload,
+  upload.single("image"),
   uploadChatImage
 );
-
 
 export default router;
