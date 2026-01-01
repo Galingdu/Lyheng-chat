@@ -93,20 +93,24 @@ io.on("connection", (socket) => {
   socket.on("typing", () => socket.broadcast.emit("typing", username));
   socket.on("stopTyping", () => socket.broadcast.emit("stopTyping"));
 
-  socket.on("sendMessage", async (data) => {
-    const message = await Message.create({
-      sender: userId,
-      text: data.text || null,
-      image: data.image || null,
-    });
-
-    const populatedMessage = await message.populate(
-      "sender",
-      "username avatar"
-    );
-
-    io.emit("newMessage", populatedMessage);
+socket.on("sendMessage", async (data) => {
+  const message = await Message.create({
+    sender: userId,
+    type: data.type || "text",
+    text: data.type === "music" ? null : data.text || null,
+    image: data.type === "image" ? data.image || null : null,
+    youtubeId: data.type === "music" ? data.youtubeId : null,
+    title: data.type === "music" ? data.title : null,
   });
+
+  const populatedMessage = await message.populate(
+    "sender",
+    "username avatar"
+  );
+
+  io.emit("newMessage", populatedMessage);
+});
+
 
   // =====================
   // 🎮 PLAY RANDOM (SAFE)
